@@ -1,0 +1,1 @@
+This project is copied from the TU Eindhoven (http://www.es.ele.tue.nl/~mwijtvliet/5KK73/?page=mmopencl). The Makefile was rewritten by me, because I do not want CUDA to be involved
