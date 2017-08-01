@@ -17,8 +17,8 @@ namespace LineairProgramming{
     enum eqSym {leq, eq, geq, noSym};
     class LPInstance {
         private:
-            std::vector<std::string> names;
         protected:
+            std::vector<std::string> names;
             std::vector<std::vector<double>> lpRepr;
         public:
             /**
