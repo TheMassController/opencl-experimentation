@@ -14,7 +14,7 @@
 
 namespace LineairProgramming{
     enum minMax {min, max};
-    enum eqSym {leq, eq, geq, noSym};
+    enum eqSym {leq, geq, noSym};
     class LPInstance {
         private:
         protected:

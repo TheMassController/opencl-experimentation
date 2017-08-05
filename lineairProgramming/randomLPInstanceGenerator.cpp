@@ -12,9 +12,10 @@ LineairProgramming::LPInstance LineairProgramming::generateRandomInstance(std::s
     std::default_random_engine generator(rd());
     std::uniform_real_distribution<double> distribution(rangeMin, rangeMax);
     // First, generate the names. One per var.
-    std::vector<std::string> names(varCount);
+    std::vector<std::string> names(varCount+1);
+    names[0] = "z";
     for (std::size_t i = 0; i < varCount; ++i){
-        names[i] = "x_"+std::to_string(i);
+        names[i+1] = "x_"+std::to_string(i);
     }
     // Whenever you initialize a std::vector its elements are set to zero. This is exploited, here.
     std::vector<std::vector<double>> data(constrCount+1);

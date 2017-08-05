@@ -30,6 +30,9 @@ LineairProgramming::LPInstance::LPInstance( const std::vector<std::string>& varN
     if (ansColmn.size() != lpTable.size() -1){
             throw std::invalid_argument("ansColmn.size() != lpTable.size() -1");
     }
+    if (varNames.size() != lpTable[0].size() + 1){
+        throw std::invalid_argument("varNames != lpTable[0].size() + 1");
+    }
     // Now, rework the input to the object
     names = varNames;
     lpRepr = lpTable;
@@ -85,18 +88,18 @@ void LineairProgramming::LPInstance::print(void){
     for (std::size_t i = 0; i < lpRepr.size(); ++i){
         std::size_t j = 0;
         if (i == 0){
-            std::cout<< "z";
+            std::cout<< names[0];
         } else {
-            std::cout << std::to_string(lpRepr[i][0]) << names[0];
+            std::cout << std::to_string(lpRepr[i][0]) << names[1];
             j = 1;
         }
         for (; j < lpRepr[i].size() - 1; ++j){
             if (lpRepr[i][j] == 0){
                 continue;
             } else if (lpRepr[i][j] > 0) {
-                std::cout << " + " << std::to_string(lpRepr[i][j]) << names[j];
+                std::cout << " + " << std::to_string(lpRepr[i][j]) << names[j+1];
             } else {
-                std::cout << " - " << std::to_string(-lpRepr[i][j]) << names[j];
+                std::cout << " - " << std::to_string(-lpRepr[i][j]) << names[j+1];
             }
         }
         std::cout << " = " << std::to_string(lpRepr[i][lpRepr[i].size()-1]) << std::endl;
