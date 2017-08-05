@@ -45,8 +45,8 @@ LineairProgramming::LPInstance::LPInstance( const std::vector<std::string>& varN
     // We need every varSym to be >=, so if it is <=, invert the sign of any coefficient of that specific var.
     // Also, throw an error on equality and noSym
     for (std::size_t i = 0; i < varSymList.size(); ++i){
-        if (varSymList[i] == noSym || varSymList[i] == eq){
-            throw std::invalid_argument("The equality symbol of any variable cannot be eq, and also not be noSym");
+        if (varSymList[i] == noSym){
+            throw std::invalid_argument("The equality symbol of any variable cannot be noSym");
         }
         if (varSymList[i] == leq){
             for (std::size_t j = 0; j < lpRepr.size(); ++j){
@@ -59,7 +59,6 @@ LineairProgramming::LPInstance::LPInstance( const std::vector<std::string>& varN
     std::string slackSymPrefix = "a_";
     std::size_t slackSymSuffix = 0;
     for (std::size_t i = 0; i < rowSymList.size(); ++i){
-        if (rowSymList[i] == eq) continue;
         if (rowSymList[i] == noSym){
             throw std::invalid_argument("The equality symbol of any row cannot be noSym");
         }

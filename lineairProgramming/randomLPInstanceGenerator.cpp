@@ -36,15 +36,12 @@ LineairProgramming::LPInstance LineairProgramming::generateRandomInstance(std::s
     if (constrEqSym != noSym){
         constrSignVec.assign(constrCount, constrEqSym);
     } else {
-        std::uniform_int_distribution<int> dist(0, 2);
+        std::uniform_int_distribution<int> dist(0, 1);
         for (std::size_t i = 0; i < constrCount; ++i){
             int v = dist(generator);
             switch(v){
                 case 0:
                     constrSignVec[i] = leq;
-                    break;
-                case 1:
-                    constrSignVec[i] = eq;
                     break;
                 default:
                     constrSignVec[i] = geq;
