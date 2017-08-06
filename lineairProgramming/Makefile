@@ -26,11 +26,11 @@ CXXDEBUGFLAGS := -DDEBUG -ggdb -Og
 
 .PHONY: all clean release debug
 
-all: release debug
-
 release: $(TARGET)
 
 debug: $(DEBUGTARGET)
+
+all: release debug
 
 -include $(OFILES:%.o=%.d)
 -include $(DEBUGOFILES:%.o=%.d)
