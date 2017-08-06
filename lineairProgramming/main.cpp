@@ -1,5 +1,6 @@
 #include "lpInstance.hpp"
 #include "randomLPInstanceGenerator.hpp"
+#include "sequentialCPUSolver.hpp"
 
 int main(){
     // Create an easy, known instance
@@ -11,8 +12,11 @@ int main(){
     std::vector<double> ans = { 4, 3};
     std::vector<LineairProgramming::eqSym> rowSymList = { LineairProgramming::leq, LineairProgramming::leq};
     std::vector<LineairProgramming::eqSym> varSymList = { LineairProgramming::geq, LineairProgramming::geq};
-    LineairProgramming::LPInstance knownInst(varnames, lpData, ans, LineairProgramming::max, rowSymList, varSymList);
-    LineairProgramming::LPInstance inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
+    LineairProgramming::SequentialCPUSolver knownInst(LineairProgramming::LPInstance(varnames, lpData, ans, LineairProgramming::max, rowSymList, varSymList));
     knownInst.print();
+    knownInst.printCurrentBasicSolution();
+
+    LineairProgramming::SequentialCPUSolver inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
     inst.print();
+    inst.printCurrentBasicSolution();
 }
