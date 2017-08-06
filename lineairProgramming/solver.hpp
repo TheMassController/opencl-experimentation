@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <tuple>
 #include "lpInstance.hpp"
 
 namespace LineairProgramming{
@@ -13,11 +14,14 @@ namespace LineairProgramming{
             SolType curSol;
         public:
             LPSolver(const LPInstance& inst);
+
+            virtual std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(void) = 0;
+            LineairProgramming::SolType getCurSol();
+
+            double getSolution();
+            virtual void solve() = 0;
+
             void printCurrentBasicSolution();
             std::string solTypeToMessage();
-            double getSolution();
-            std::vector<double> getCurrentBasicSolution();
-            LineairProgramming::SolType getCurSol();
-            virtual void solve() = 0;
     };
 }

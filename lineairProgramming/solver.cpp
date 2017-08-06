@@ -5,43 +5,12 @@ LineairProgramming::LPSolver::LPSolver(const LPInstance& inst) : LineairProgramm
     curSol = unknown;
 }
 
-std::vector<double> LineairProgramming::LPSolver::getCurrentBasicSolution(){
-    std::vector<double> basicSol(names.size());
-    basicSol[0] = getSolution();
-    std::vector<std::size_t> basicForRow(names.size());
-    // Every variable is either basic or non-basic.
-    // Each row has exactly one basic variable.
-    // The first row is excluded from this, if a variable has a value in the first row,
-    // then it cannot be basic.
-    for (std::size_t col = 0; col < names.size()-1; ++col){
-        if (lpRepr[0][col] != 0) continue;
-        for (std::size_t row = 1; row < lpRepr.size(); ++row){
-            if (lpRepr[row][col] == 0) continue;
-            if (lpRepr[row][col] != 1 || basicForRow[col+1] != 0){
-                basicSol[col+1] = 0;
-                basicForRow[col+1] = 0;
-                break;
-            }
-            bool unique = true;
-            for (std::size_t& it : basicForRow){
-                if (it == row){
-                    unique = false;
-                    break;
-                }
-            }
-            if (unique){
-                basicForRow[col+1] = row;
-                basicSol[col+1] = lpRepr[row][lpRepr[0].size() -1];
-            }
-        }
-    }
-    return basicSol;
-}
-
 // Some instances just do not have a basic solution. This is checked, and reported
 // If a basic solution is possible but violates some variable constraints, it is printed and the problem is reported
 void LineairProgramming::LPSolver::printCurrentBasicSolution(void){
-    std::vector<double> basicSolution = getCurrentBasicSolution();
+    std::vector<double> basicSolution;
+    std::vector<std::size_t> rowInformation;
+    std::tie(basicSolution, rowInformation) = deriveBasicSolutionInformation();
     for (std::size_t i = 0; i < basicSolution.size(); ++i){
         std::cout << names[i] << " " << basicSolution[i] << std::endl;
     }
