@@ -4,11 +4,14 @@
 
 namespace LineairProgramming{
     class SequentialCPUSolver : public LPSolver {
+        private:
+            std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const std::vector<std::vector<double>>& simplexTableau);
+        protected:
         public:
             SequentialCPUSolver(const LPSolver& inst);
-            SequentialCPUSolver(const LPInstance& inst);
+            SequentialCPUSolver();
 
-            std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(void);
-            void solve(void);
+            std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const LPInstance& inst);
+            std::tuple<LPInstance, SolType> solve(const LPInstance& inst);
     };
 }

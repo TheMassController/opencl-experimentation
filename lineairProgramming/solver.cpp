@@ -1,25 +1,6 @@
 #include <iostream>
 #include "solver.hpp"
 
-LineairProgramming::LPSolver::LPSolver(const LPInstance& inst) : LineairProgramming::LPInstance::LPInstance(inst){
-    curSol = unknown;
-}
-
-// Some instances just do not have a basic solution. This is checked, and reported
-// If a basic solution is possible but violates some variable constraints, it is printed and the problem is reported
-void LineairProgramming::LPSolver::printCurrentBasicSolution(void){
-    std::vector<double> basicSolution;
-    std::vector<std::size_t> rowInformation;
-    std::tie(basicSolution, rowInformation) = deriveBasicSolutionInformation();
-    for (std::size_t i = 0; i < basicSolution.size(); ++i){
-        std::cout << names[i] << " " << basicSolution[i] << std::endl;
-    }
-}
-
-double LineairProgramming::LPSolver::getSolution(void){
-    return lpRepr[0][lpRepr[0].size()-1];
-}
-
 std::string LineairProgramming::solTypeToMessage(LineairProgramming::SolType sol){
     switch(sol){
         case unknown:
@@ -37,10 +18,16 @@ std::string LineairProgramming::solTypeToMessage(LineairProgramming::SolType sol
     }
 }
 
-std::string LineairProgramming::LPSolver::solTypeToMessage(){
-    return LineairProgramming::solTypeToMessage(curSol);
+LineairProgramming::LPSolver::LPSolver(){
+
 }
 
-LineairProgramming::SolType LineairProgramming::LPSolver::getCurSol(){
-    return curSol;
+void LineairProgramming::LPSolver::printCurrentBasicSolution(const LPInstance& inst){
+    std::vector<double> basicSolution;
+    std::vector<std::size_t> rowInformation;
+    std::vector<std::string> names = inst.getNames();
+    std::tie(basicSolution, rowInformation) = deriveBasicSolutionInformation(inst);
+    for (std::size_t i = 0; i < basicSolution.size(); ++i){
+        std::cout << names[i] << " " << basicSolution[i] << std::endl;
+    }
 }

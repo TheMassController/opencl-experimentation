@@ -3,7 +3,8 @@
  * @author Jacko Dirks
  *
  * This class represents an LPInstance.
- * It provides a representation, a way to print the setup and a superclass to any solvers.
+ * It provides a representation and acts as a container for it.
+ * It does not allow change after construction.
  * Please note that an ILP is a subset of LP for the purpose of this software.
  */
 
@@ -19,7 +20,7 @@ namespace LineairProgramming{
         private:
         protected:
             std::vector<std::string> names;
-            std::vector<std::vector<double>> lpRepr;
+            std::vector<std::vector<double>> simplexTableau;
         public:
             /**
              * @brief default constructor. Processes any form of LP instance to an internal representation
@@ -43,7 +44,15 @@ namespace LineairProgramming{
                         const LineairProgramming::minMax probType,
                         const std::vector<LineairProgramming::eqSym>& rowSymList,
                         const std::vector<LineairProgramming::eqSym>& varSymList );
+
+            LPInstance( const std::vector<std::string>& namesVector,
+                        const std::vector<std::vector<double>>& simplexTableau);
+
             ~LPInstance(void);
+
+            std::vector<std::string> getNames() const;
+            std::vector<std::vector<double>> getSimplexTableau() const;
+            double getSolution();
 
             void print();
     };

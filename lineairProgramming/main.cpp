@@ -3,6 +3,7 @@
 #include "sequentialCPUSolver.hpp"
 
 int main(){
+    LineairProgramming::SequentialCPUSolver seqSolver;
     // Create an easy, known instance
     std::vector<std::string> varnames = {"z", "x1", "x2"};
     std::vector<std::vector<double>> lpData(3);
@@ -12,11 +13,11 @@ int main(){
     std::vector<double> ans = { 4, 3};
     std::vector<LineairProgramming::eqSym> rowSymList = { LineairProgramming::leq, LineairProgramming::leq};
     std::vector<LineairProgramming::eqSym> varSymList = { LineairProgramming::geq, LineairProgramming::geq};
-    LineairProgramming::SequentialCPUSolver knownInst(LineairProgramming::LPInstance(varnames, lpData, ans, LineairProgramming::max, rowSymList, varSymList));
+    LineairProgramming::LPInstance knownInst(LineairProgramming::LPInstance(varnames, lpData, ans, LineairProgramming::max, rowSymList, varSymList));
     knownInst.print();
-    knownInst.printCurrentBasicSolution();
+    seqSolver.printCurrentBasicSolution(knownInst);
 
-    LineairProgramming::SequentialCPUSolver inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
+    LineairProgramming::LPInstance inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
     inst.print();
-    inst.printCurrentBasicSolution();
+    seqSolver.printCurrentBasicSolution(inst);
 }
