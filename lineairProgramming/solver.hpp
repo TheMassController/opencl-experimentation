@@ -10,12 +10,13 @@ namespace LineairProgramming{
     // LPSolver is an abstract class: it cannot exist on its own.
     class LPSolver  {
         private:
+            virtual std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const std::vector<std::vector<double>>& simplexTableau) = 0;
         protected:
         public:
             LPSolver();
-            virtual std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const LPInstance& inst) = 0;
-            virtual std::tuple<LPInstance, SolType> solve(const LPInstance& inst) = 0;
-
+            std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const LPInstance& inst);
             void printCurrentBasicSolution(const LPInstance& inst);
+
+            virtual std::tuple<LPInstance, SolType> solve(const LPInstance& inst) = 0;
     };
 }

@@ -11,7 +11,6 @@ namespace LineairProgramming{
             SequentialCPUSolver(const LPSolver& inst);
             SequentialCPUSolver();
 
-            std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const LPInstance& inst);
             std::tuple<LPInstance, SolType> solve(const LPInstance& inst);
     };
 }

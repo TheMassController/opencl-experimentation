@@ -59,10 +59,6 @@ std::tuple<std::vector<double>, std::vector<std::size_t>> LineairProgramming::Se
     return std::make_tuple(basicSolution, rowIndex);
 }
 
-std::tuple<std::vector<double>, std::vector<std::size_t>> LineairProgramming::SequentialCPUSolver::deriveBasicSolutionInformation(const LPInstance& inst){
-    return deriveBasicSolutionInformation(inst.getSimplexTableau());
-}
-
 std::tuple<LineairProgramming::LPInstance, LineairProgramming::SolType> LineairProgramming::SequentialCPUSolver::solve(const LPInstance& inst){
     return std::make_tuple(inst, LineairProgramming::unknown);
 }

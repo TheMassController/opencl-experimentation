@@ -31,3 +31,7 @@ void LineairProgramming::LPSolver::printCurrentBasicSolution(const LPInstance& i
         std::cout << names[i] << " " << basicSolution[i] << std::endl;
     }
 }
+
+std::tuple<std::vector<double>, std::vector<std::size_t>> LineairProgramming::LPSolver::deriveBasicSolutionInformation(const LPInstance& inst){
+    return deriveBasicSolutionInformation(inst.getSimplexTableau());
+}
