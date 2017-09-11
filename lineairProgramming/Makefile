@@ -17,11 +17,11 @@ DEBUGTARGET:=final_dbg
 
 #compiling and linking options
 LDFLAGS :=
-LDRELEASEFLAGS := -s
+LDRELEASEFLAGS := -s -flto
 LDDEBUGFLAGS :=
 
 CXXFLAGS := -std=gnu++14 -I $(INCDIR) -Wall -Werror -Wfatal-errors -Wshadow -march=native -MP -MMD
-CXXRELEASEFLAGS := -O3
+CXXRELEASEFLAGS := -O3 -flto
 CXXDEBUGFLAGS := -DDEBUG -ggdb -Og
 
 .PHONY: all clean release debug
