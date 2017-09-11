@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "lpInstance.hpp"
 #include "randomLPInstanceGenerator.hpp"
 #include "sequentialCPUSolver.hpp"
@@ -20,4 +22,5 @@ int main(){
     LineairProgramming::LPInstance inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
     inst.print();
     seqSolver.printCurrentBasicSolution(inst);
+    std::cout << LineairProgramming::solTypeToMessage(seqSolver.solve(inst)) << std::endl;
 }

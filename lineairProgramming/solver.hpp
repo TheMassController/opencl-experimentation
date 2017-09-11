@@ -17,6 +17,6 @@ namespace LineairProgramming{
             std::tuple<std::vector<double>, std::vector<std::size_t>> deriveBasicSolutionInformation(const LPInstance& inst);
             void printCurrentBasicSolution(const LPInstance& inst);
 
-            virtual std::tuple<LPInstance, SolType> solve(const LPInstance& inst) = 0;
+            virtual SolType solve(LPInstance& inst) = 0;
     };
 }
