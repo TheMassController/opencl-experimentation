@@ -1,5 +1,6 @@
 #include <algorithm> //std::find
 #include <cmath> //std::signbit
+#include <limits> //std::numeric_limits
 #include "sequentialCPUSolver.hpp"
 
 LineairProgramming::SequentialCPUSolver::SequentialCPUSolver(const LPSolver& inst) : LineairProgramming::LPSolver::LPSolver(inst){
@@ -60,8 +61,63 @@ std::tuple<std::vector<double>, std::vector<std::size_t>> LineairProgramming::Se
     return std::make_tuple(basicSolution, rowIndex);
 }
 
-LineairProgramming::SolType  LineairProgramming::SequentialCPUSolver::doSimplex(LPInstance& inst){
-    return LineairProgramming::unknown;
+LineairProgramming::SolType LineairProgramming::SequentialCPUSolver::doSimplex(LPInstance& inst){
+    std::vector<std::vector<double>> tableau = inst.getSimplexTableau();
+    LineairProgramming::SolType retVal = LineairProgramming::unknown;
+    while(1) {
+        // Check the first row, find the most negative value
+        double mostNeg = 0;
+        std::size_t pivotColIndex = 0;
+        for (std::size_t i = 0; i < tableau[0].size(); ++i){
+            if (tableau[0][i] < mostNeg){
+                mostNeg = tableau[0][i];
+                pivotColIndex = i;
+            }
+        }
+        if (mostNeg >= 0){
+            std::vector<double> ans;
+            std::vector<std::size_t> pos;
+            std::tie(ans, pos) = deriveBasicSolutionInformation(tableau);
+            retVal = LineairProgramming::optimal;
+            for (std::size_t i = 0; i < ans.size(); ++i){
+                if (ans[i] < 0){
+                    retVal = LineairProgramming::infeasible;
+                    break;
+                }
+            }
+            break;
+        }
+        // Go over all the rows, find the ratios.
+        double smallestRatio = std::numeric_limits<double>::max();
+        std::size_t pivotRowIndex = tableau.size();
+        for (std::size_t i = 1; i < tableau.size(); ++i){
+            double ratio = tableau[i][tableau[i].size() - 1]/ tableau[i][pivotColIndex];
+            if (ratio >= 0 && ratio < smallestRatio){
+                smallestRatio = ratio;
+                pivotRowIndex = i;
+            }
+        }
+        if (pivotRowIndex == tableau.size()){
+            retVal = LineairProgramming::unbounded;
+            break;
+        }
+        // We have the location of the pivot element, start scrubbing.
+        // Skip the pivotrow, for now
+        for (std::size_t i = 0; i < tableau.size(); ++i){
+            if (i == pivotRowIndex) continue;
+            double ratio = tableau[i][pivotColIndex] / tableau[pivotRowIndex][pivotColIndex];
+            for (std::size_t j = 0; j < tableau[i].size(); ++j){
+                tableau[i][j] -= ratio*tableau[pivotRowIndex][j];
+            }
+        }
+        // Do the pivotrow
+        double ratio = 1/tableau[pivotRowIndex][pivotColIndex];
+        for (std::size_t j = 0; j < tableau[pivotRowIndex].size(); ++j){
+            tableau[pivotRowIndex][j] *= ratio;
+        }
+    }
+    inst.updateSimplexTableau(tableau);
+    return retVal;
 }
 
 LineairProgramming::SolType LineairProgramming::SequentialCPUSolver::solve(LPInstance& inst){
