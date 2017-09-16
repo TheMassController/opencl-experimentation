@@ -18,6 +18,9 @@ int main(){
     LineairProgramming::LPInstance knownInst(LineairProgramming::LPInstance(varnames, lpData, ans, LineairProgramming::max, rowSymList, varSymList));
     knownInst.print();
     seqSolver.printCurrentBasicSolution(knownInst);
+    std::cout << LineairProgramming::solTypeToMessage(seqSolver.solve(knownInst)) << std::endl;
+    knownInst.print();
+    seqSolver.printCurrentBasicSolution(knownInst);
 
     LineairProgramming::LPInstance inst(LineairProgramming::generateRandomInstance(2, 10, -20, 20));
     inst.print();
