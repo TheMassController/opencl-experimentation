@@ -112,3 +112,14 @@ std::vector<std::string> LineairProgramming::LPInstance::getNames() const{
 std::vector<std::vector<double>> LineairProgramming::LPInstance::getSimplexTableau() const{
     return simplexTableau;
 }
+
+void LineairProgramming::LPInstance::updateSimplexTableau(const std::vector<std::vector<double>>& tableau){
+    if (simplexTableau.size() != tableau.size())
+        throw std::invalid_argument("The height of the update tableau is not equal to the orignial height");
+    for (std::size_t i = 0; i < simplexTableau.size(); ++i){
+        if (simplexTableau[i].size() != tableau[i].size()){
+            throw std::invalid_argument("The width of the update tableau is not equal to the orignial width");
+        }
+    }
+    simplexTableau = tableau;
+}

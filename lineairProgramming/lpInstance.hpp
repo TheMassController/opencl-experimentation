@@ -52,7 +52,13 @@ namespace LineairProgramming{
 
             std::vector<std::string> getNames() const;
             std::vector<std::vector<double>> getSimplexTableau() const;
-            double getSolution();
+
+            /**
+             * @brief Updates the tableau
+             *
+             * It will only accepts tableaus with exactly the same size as the original
+             */
+            void updateSimplexTableau(const std::vector<std::vector<double>>& tableau);
 
             void print();
     };
