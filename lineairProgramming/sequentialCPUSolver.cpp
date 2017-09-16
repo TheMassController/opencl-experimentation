@@ -14,13 +14,14 @@ std::tuple<std::vector<double>, std::vector<std::size_t>> LineairProgramming::Se
     std::size_t colCount = simplexTableau[0].size();
     std::vector<double> basicSolution(colCount);
     std::vector<std::size_t> rowIndex(colCount);
+    basicSolution[0] = simplexTableau[0][colCount-1];
     // Every variable is either basic or non-basic.
     // Each row has exactly one basic variable.
     // The first row is excluded from this, if a variable has a value in the first row,
     // then it cannot be basic.
     for (std::size_t col = 0; col < colCount-1; ++col){
         if (simplexTableau[0][col] != 0) continue;
-        // Check if this is the only non-zero element in the row
+        // Check if this is the only non-zero element in the colmn
         std::size_t curRow = 0;
         bool found = false;
         for (std::size_t row = 1; row < simplexTableau.size(); ++row){
